@@ -105,7 +105,7 @@ static void ndpi_check_netflow(struct ndpi_detection_module_struct *ndpi_struct,
   // const u_int8_t *packet_payload = packet->payload;
   u_int32_t payload_len = packet->payload_packet_len;
   time_t now;
-  struct timeval now_tv;
+  struct timespec64 now_tv;
 
   if((packet->udp != NULL) && (payload_len >= 24)) {
     u_int16_t version = (packet->payload[0] << 8) + packet->payload[1], uptime_offset;
