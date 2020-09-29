@@ -41,6 +41,9 @@
 #include "ndpi_main.h"
 #include "xt_ndpi.h"
 
+
+#define do_gettimeofday(a) gettimeofday(a, NULL)
+
 /* Debug param */
 static int debug_dpi = 0;
 module_param(debug_dpi, int, 0);
@@ -627,13 +630,6 @@ ndpi_mt(const struct sk_buff *skb, struct xt_action_param *par)
 			kfree_skb(linearized_skb);
 
 		return false;
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,0,0)
-	} else if (nf_ct_is_untracked(skb)){
-#else
-	} else if (nf_ct_is_untracked(ct)){
-#endif
-		pr_info ("xt_ndpi: ignoring untracked sk_buff.\n");
-		return false;               
 	}
 
 
