@@ -16,8 +16,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with nDPI.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Rev.1.1
- *
  */
 
 
@@ -25,12 +23,10 @@
 
 #ifdef NDPI_PROTOCOL_NETFLOW
 
-#ifndef __KERNEL__
 #ifdef WIN32
 extern int gettimeofday(struct timeval * tp, struct timezone * tzp);
 #endif
 #define do_gettimeofday(a) gettimeofday(a, NULL)
-#endif
 
 struct flow_ver1_rec {
   u_int32_t srcaddr;    /* Source IP Address */

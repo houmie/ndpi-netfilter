@@ -373,9 +373,9 @@ static void ndpi_gc_flow(void)
 	union nf_inet_addr *ipdst;
 
         u64 t1;
-        struct timeval tv;
+        struct timespec64 tv;
 
-        do_gettimeofday(&tv);
+        ktime_get_real_ts64(&tv);
         t1 = (uint64_t) tv.tv_sec;
         
 	spin_lock_bh (&gc_lock);
@@ -409,7 +409,7 @@ ndpi_process_packet(struct nf_conn * ct, const uint64_t time,
 
 	u8 exist_flow=0;
         u64 t1;
-        struct timeval tv;
+        struct timespec64 tv;
 
         ipsrc = &ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.src.u3;
        	ipdst = &ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.u3;
@@ -440,7 +440,7 @@ ndpi_process_packet(struct nf_conn * ct, const uint64_t time,
 		}
 	}
 
-        do_gettimeofday(&tv);
+        ktime_get_real_ts64(&tv);
         t1 = (uint64_t) tv.tv_sec;
 
         if (flow == NULL) {
@@ -579,7 +579,7 @@ ndpi_mt(const struct sk_buff *skb, struct xt_action_param *par)
 
 	enum ip_conntrack_info ctinfo;
 	struct nf_conn * ct;
-	struct timeval tv;
+	struct timespec64 tv;
 	struct sk_buff *linearized_skb = NULL;
 	const struct sk_buff *skb_use = NULL;
 
@@ -618,7 +618,7 @@ ndpi_mt(const struct sk_buff *skb, struct xt_action_param *par)
         ip = ip_hdr(skb_use);
         tcph = (const void *)ip + ip_hdrlen(skb_use);
 
-	do_gettimeofday(&tv);
+	ktime_get_real_ts64(&tv);
 	time = ((uint64_t) tv.tv_sec) * detection_tick_resolution +
 		tv.tv_usec / (1000000 / detection_tick_resolution);
 
