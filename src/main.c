@@ -639,7 +639,7 @@ ndpi_mt(const struct sk_buff *skb, struct xt_action_param *par)
 
 	ktime_get_real_ts64(&tv);
 	time = ((uint64_t) tv.tv_sec) * detection_tick_resolution +
-		tv.tv_usec / (1000000 / detection_tick_resolution);
+		tv.tv_sec / (1000000 / detection_tick_resolution);
 
 	/* reset for new packets and solve ct collisions */
 	if (ctinfo == IP_CT_NEW) {
